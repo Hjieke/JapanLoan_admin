@@ -1,0 +1,131 @@
+{
+    "code": 10000,
+    "data": {
+        "list": [{
+                "bigPictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/ampgt.jpg",
+                "height": 614,
+                "hostType": 2,
+                "lotteryType": 2,
+                "pictureId": 20243938675333,
+                "pictureName": "澳门跑狗",
+                "pictureTypeId": 28089,
+                "pictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/ampgt.jpg",
+                "width": 400,
+                "year": 2024
+            },
+            {
+                "bigPictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/amsbx.jpg",
+                "height": 418,
+                "hostType": 2,
+                "lotteryType": 2,
+                "pictureId": 20243938675306,
+                "pictureName": "四不像",
+                "pictureTypeId": 28013,
+                "pictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/amsbx.jpg",
+                "width": 400,
+                "year": 2024
+            },
+            {
+                "bigPictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/jxsm.jpg",
+                "height": 518,
+                "hostType": 2,
+                "lotteryType": 2,
+                "pictureId": 20243938674511,
+                "pictureName": "九肖十码",
+                "pictureTypeId": 210079,
+                "pictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/jxsm.jpg",
+                "width": 400,
+                "year": 2024
+            },
+            {
+                "bigPictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/118nmzl.jpg",
+                "height": 614,
+                "hostType": 2,
+                "lotteryType": 2,
+                "pictureId": 20243938674402,
+                "pictureName": "118内幕资料",
+                "pictureTypeId": 417675,
+                "pictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/118nmzl.jpg",
+                "width": 400,
+                "year": 2024
+            },
+            {
+                "bigPictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/jx30m.jpg",
+                "height": 582,
+                "hostType": 2,
+                "lotteryType": 2,
+                "pictureId": 20243938674510,
+                "pictureName": "九肖30码",
+                "pictureTypeId": 417038,
+                "pictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/jx30m.jpg",
+                "width": 400,
+                "year": 2024
+            },
+            {
+                "bigPictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/ampgta.jpg",
+                "height": 583,
+                "hostType": 2,
+                "lotteryType": 2,
+                "pictureId": 20243938676268,
+                "pictureName": "跑狗图A",
+                "pictureTypeId": 417449,
+                "pictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/ampgta.jpg",
+                "width": 400,
+                "year": 2024
+            },
+            {
+                "bigPictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/amgjp.jpg",
+                "height": 266,
+                "hostType": 2,
+                "lotteryType": 2,
+                "pictureId": 20243938675324,
+                "pictureName": "管家婆",
+                "pictureTypeId": 28015,
+                "pictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/amgjp.jpg",
+                "width": 400,
+                "year": 2024
+            },
+            {
+                "bigPictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/jpmy.jpg",
+                "height": 204,
+                "hostType": 2,
+                "lotteryType": 2,
+                "pictureId": 20243938677613,
+                "pictureName": "金牌谜语",
+                "pictureTypeId": 417450,
+                "pictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/jpmy.jpg",
+                "width": 400,
+                "year": 2024
+            },
+            {
+                "bigPictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/amgp.jpg",
+                "height": 400,
+                "hostType": 2,
+                "lotteryType": 2,
+                "pictureId": 20243938677668,
+                "pictureName": "挂牌图",
+                "pictureTypeId": 28021,
+                "pictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/amgp.jpg",
+                "width": 400,
+                "year": 2024
+            },
+            {
+                "bigPictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/ammh.jpg",
+                "height": 476,
+                "hostType": 2,
+                "lotteryType": 2,
+                "pictureId": 20243938675330,
+                "pictureName": "澳门传真",
+                "pictureTypeId": 28022,
+                "pictureUrl": "https://tk2.zaojiao365.net:4949/m/col/80/ammh.jpg",
+                "width": 400,
+                "year": 2024
+            }
+        ]
+    },
+    "msg": "操作成功",
+    "serverTime": 1710931675376,
+    "subCode": 10000,
+    "subMsg": "操作成功",
+    "success": true
+}

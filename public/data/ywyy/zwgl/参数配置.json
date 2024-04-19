@@ -1,0 +1,44 @@
+{
+    "success": true,
+    "code": 200,
+    "message": "请求成功",
+    "data": {
+        "customerServiceUrl": {
+            "label": "客服链接",
+            "value": "https://chat.ichatlink.net/widget/standalone.html?eid=cdab6bcbb7f6c946fc432ce167345d99&language=en"
+        },
+        "regNumber": {
+            "label": "注册人数",
+            "value": "9999"
+        },
+        "userEarned": {
+            "label": "用户已赚",
+            "value": "9999"
+        },
+        "rechargeBankCard": {
+            "label": "充值银行卡",
+            "value": "11111"
+        }
+    },
+    "bodyData":{
+        "regNumber": {
+            "label": "注册人数",
+            "value": "154562"
+        },
+        "userEarned": {
+            "label": "用户已赚",
+            "value": "7715"
+        },
+       
+        "rechargeBankCard": {
+            "label": "充值银行卡",
+            "value": "11111"
+        }, 
+        "customerServiceUrl": {
+            "label": "客服链接",
+            "value": "https://chat.ichatlink.net/widget/standalone.html?eid=cdab6bcbb7f6c946fc432ce167345d99&language=en"
+        }
+    }
+}
+
+

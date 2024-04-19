@@ -1,0 +1,28 @@
+{
+    "success": true,
+    "code": 200,
+    "message": "请求成功",
+    "data": {
+        "pageNo": 1,
+        "pageSize": 10,
+        "totalPage": 1,
+        "totalRows": 1,
+        "rows": [
+            {
+                "id": "1610169102208630786",
+                "createTime": "1672729204000",
+                "createUser": "1610151500585398274",
+                "updateTime": "1708170302000",
+                "updateUser": "1741357416760586242",
+                "content": "Kính gửi quý khách hàng, hệ thống sẽ tạm dừng hoạt động sau 23:00 tối. Cảm ơn sự ủng hộ và chúc quý khách ngày mới thật nhiều may mắn!",
+                "status": 1,
+                "orgCode": "xg_cm"
+            }
+        ],
+        "rainbow": [
+            1
+        ],
+        "totalRecords": [],
+        "totalSum": null
+    }
+}

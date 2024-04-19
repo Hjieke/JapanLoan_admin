@@ -1,0 +1,88 @@
+{
+    "success": true,
+    "code": 200,
+    "message": "请求成功",
+    "data": {
+        "pageNo": 1,
+        "pageSize": 10,
+        "totalPage": 1,
+        "totalRows": 5,
+        "rows": [
+            {
+                "id": "1750877520791609345",
+                "createTime": "1706276705000",
+                "createUser": "1741357416760586242",
+                "updateTime": null,
+                "updateUser": null,
+                "orgCode": "xg_cm",
+                "account": null,
+                "ip": "103.170.26.64",
+                "games": "",
+                "gameList": [],
+                "operator": "admin",
+                "operateTime": "1706276705000"
+            },
+            {
+                "id": "1751144359341858818",
+                "createTime": "1706340325000",
+                "createUser": "1741357416760586242",
+                "updateTime": null,
+                "updateUser": null,
+                "orgCode": "xg_cm",
+                "account": null,
+                "ip": "103.170.26.25",
+                "games": "",
+                "gameList": [],
+                "operator": "admin",
+                "operateTime": "1706340325000"
+            },
+            {
+                "id": "1751253342467661825",
+                "createTime": "1706366308000",
+                "createUser": "1741357416760586242",
+                "updateTime": null,
+                "updateUser": null,
+                "orgCode": "xg_cm",
+                "account": null,
+                "ip": "157.254.192.252",
+                "games": "",
+                "gameList": [],
+                "operator": "admin",
+                "operateTime": "1706366308000"
+            },
+            {
+                "id": "1752255715113705473",
+                "createTime": "1706605292000",
+                "createUser": "1741357416760586242",
+                "updateTime": null,
+                "updateUser": null,
+                "orgCode": "xg_cm",
+                "account": null,
+                "ip": "103.129.127.153",
+                "games": "",
+                "gameList": [],
+                "operator": "admin",
+                "operateTime": "1706605292000"
+            },
+            {
+                "id": "1752323600553091073",
+                "createTime": "1706621478000",
+                "createUser": "1741357416760586242",
+                "updateTime": null,
+                "updateUser": null,
+                "orgCode": "xg_cm",
+                "account": null,
+                "ip": "144.48.25.168",
+                "games": "",
+                "gameList": [],
+                "operator": "admin",
+                "operateTime": "1706621478000"
+            }
+        ],
+        "rainbow": [
+            1
+        ],
+        "totalRecords": [],
+        "totalSum": null
+    }
+}

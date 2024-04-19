@@ -1,0 +1,122 @@
+{
+    "success": true,
+    "code": 200,
+    "message": "请求成功",
+    "data": {
+        "pageNo": 1,
+        "pageSize": 10,
+        "totalPage": 17,
+        "totalRows": 170,
+        "rows": [
+            {
+                "id": "1610575021392056321",
+                "createTime": "1672825983000",
+                "createUser": "1265476890672672808",
+                "updateTime": "1672825997000",
+                "updateUser": "1265476890672672808",
+                "avatar": "https://www.baidu.com/favicon.ico",
+                "nickName": "Nguyễn Thị Yến Thanh",
+                "status": 1
+            },
+            {
+                "id": "1610575957703315458",
+                "createTime": "1672826206000",
+                "createUser": "1265476890672672808",
+                "updateTime": "1672885400000",
+                "updateUser": "1265476890672672808",
+                "avatar": "win28/avatar/1610839495822917634.webp",
+                "nickName": "Đào Thị Yến Nhi",
+                "status": 1
+            },
+            {
+                "id": "1610823971831332865",
+                "createTime": "1672885337000",
+                "createUser": "1265476890672672808",
+                "updateTime": "1672889419000",
+                "updateUser": "1265476890672672808",
+                "avatar": "win28/avatar/1610841073581625346.jfif",
+                "nickName": "Phạm Ngọc Anh Đào",
+                "status": 1
+            },
+            {
+                "id": "1610824153125928962",
+                "createTime": "1672885380000",
+                "createUser": "1265476890672672808",
+                "updateTime": "1672889445000",
+                "updateUser": "1265476890672672808",
+                "avatar": "win28/avatar/1610841114484477954.png",
+                "nickName": "Liên Thị Thanh Hương",
+                "status": 1
+            },
+            {
+                "id": "1610824467153469442",
+                "createTime": "1672885455000",
+                "createUser": "1265476890672672808",
+                "updateTime": "1672889472000",
+                "updateUser": "1265476890672672808",
+                "avatar": "win28/avatar/1610841292805312514.webp",
+                "nickName": "Huỳnh Ngọc Mai",
+                "status": 1
+            },
+            {
+                "id": "1610841483474178050",
+                "createTime": "1672889512000",
+                "createUser": "1265476890672672808",
+                "updateTime": "1673502101000",
+                "updateUser": "1610151500585398274",
+                "avatar": "win28/avatar/1610841468555038722.jfif",
+                "nickName": "Lê Thị Ngọc Anh",
+                "status": 1
+            },
+            {
+                "id": "1611185212824227841",
+                "createTime": "1672971464000",
+                "createUser": "1610151500585398274",
+                "updateTime": "1673502126000",
+                "updateUser": "1610151500585398274",
+                "avatar": "win28/avatar/1611185196663574529.jpeg",
+                "nickName": "Phạm Thị Lan",
+                "status": 1
+            },
+            {
+                "id": "1611185369611505666",
+                "createTime": "1672971501000",
+                "createUser": "1610151500585398274",
+                "updateTime": "1673502146000",
+                "updateUser": "1610151500585398274",
+                "avatar": "win28/avatar/1611185348606431234.webp",
+                "nickName": "Nguyễn Ngọc Phương",
+                "status": 1
+            },
+            {
+                "id": "1611185585999843329",
+                "createTime": "1672971553000",
+                "createUser": "1610151500585398274",
+                "updateTime": "1673502180000",
+                "updateUser": "1610151500585398274",
+                "avatar": "win28/avatar/1611185569822412802.jpg",
+                "nickName": "Huỳnh Tuấn Kiệt",
+                "status": 1
+            },
+            {
+                "id": "1611185991232524290",
+                "createTime": "1672971649000",
+                "createUser": "1610151500585398274",
+                "updateTime": "1673502202000",
+                "updateUser": "1610151500585398274",
+                "avatar": "win28/avatar/1611185981526904833.jpg",
+                "nickName": "Ngô Hoàng Long",
+                "status": 1
+            }
+        ],
+        "rainbow": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ],
+        "totalRecords": [],
+        "totalSum": null
+    }
+}

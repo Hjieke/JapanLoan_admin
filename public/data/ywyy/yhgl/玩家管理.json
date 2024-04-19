@@ -1,0 +1,270 @@
+{
+    "code": 10000,
+    "data": {
+        "key": "2024-03-18 21:32:03",
+        "pager": {
+            "pageNum": 1,
+            "pageSize": 5,
+            "start": 1,
+            "totalCount": -1,
+            "totalPageCount": 1
+        },
+        "recordList": [{
+                "id": 20240783,
+                "lotteryTime": "2024年03月18日",
+                "lotteryType": 3,
+                "numberList": [{
+                        "color": 3,
+                        "number": "44",
+                        "shengXiao": "鸡",
+                        "wuXing": "木"
+                    },
+                    {
+                        "color": 3,
+                        "number": "39",
+                        "shengXiao": "虎",
+                        "wuXing": "火"
+                    },
+                    {
+                        "color": 3,
+                        "number": "28",
+                        "shengXiao": "牛",
+                        "wuXing": "水"
+                    },
+                    {
+                        "color": 1,
+                        "number": "24",
+                        "shengXiao": "蛇",
+                        "wuXing": "金"
+                    },
+                    {
+                        "color": 2,
+                        "number": "03",
+                        "shengXiao": "虎",
+                        "wuXing": "金"
+                    },
+                    {
+                        "color": 2,
+                        "number": "37",
+                        "shengXiao": "龙",
+                        "wuXing": "木"
+                    },
+                    {
+                        "color": 1,
+                        "number": "01",
+                        "shengXiao": "龙",
+                        "wuXing": "火"
+                    }
+                ],
+                "period": 78,
+                "year": 2024
+            },
+            {
+                "id": 20240773,
+                "lotteryTime": "2024年03月17日",
+                "lotteryType": 3,
+                "numberList": [{
+                        "color": 3,
+                        "number": "05",
+                        "shengXiao": "鼠",
+                        "wuXing": "土"
+                    },
+                    {
+                        "color": 2,
+                        "number": "04",
+                        "shengXiao": "牛",
+                        "wuXing": "土"
+                    },
+                    {
+                        "color": 2,
+                        "number": "10",
+                        "shengXiao": "羊",
+                        "wuXing": "金"
+                    },
+                    {
+                        "color": 2,
+                        "number": "26",
+                        "shengXiao": "兔",
+                        "wuXing": "土"
+                    },
+                    {
+                        "color": 1,
+                        "number": "02",
+                        "shengXiao": "兔",
+                        "wuXing": "金"
+                    },
+                    {
+                        "color": 2,
+                        "number": "47",
+                        "shengXiao": "马",
+                        "wuXing": "火"
+                    },
+                    {
+                        "color": 3,
+                        "number": "44",
+                        "shengXiao": "鸡",
+                        "wuXing": "木"
+                    }
+                ],
+                "period": 77,
+                "year": 2024
+            },
+            {
+                "id": 20240763,
+                "lotteryTime": "2024年03月16日",
+                "lotteryType": 3,
+                "numberList": [{
+                        "color": 1,
+                        "number": "01",
+                        "shengXiao": "龙",
+                        "wuXing": "火"
+                    },
+                    {
+                        "color": 2,
+                        "number": "10",
+                        "shengXiao": "羊",
+                        "wuXing": "金"
+                    },
+                    {
+                        "color": 2,
+                        "number": "47",
+                        "shengXiao": "马",
+                        "wuXing": "火"
+                    },
+                    {
+                        "color": 3,
+                        "number": "49",
+                        "shengXiao": "龙",
+                        "wuXing": "土"
+                    },
+                    {
+                        "color": 1,
+                        "number": "23",
+                        "shengXiao": "马",
+                        "wuXing": "木"
+                    },
+                    {
+                        "color": 1,
+                        "number": "07",
+                        "shengXiao": "狗",
+                        "wuXing": "木"
+                    },
+                    {
+                        "color": 2,
+                        "number": "42",
+                        "shengXiao": "猪",
+                        "wuXing": "水"
+                    }
+                ],
+                "period": 76,
+                "year": 2024
+            },
+            {
+                "id": 20240753,
+                "lotteryTime": "2024年03月15日",
+                "lotteryType": 3,
+                "numberList": [{
+                        "color": 2,
+                        "number": "42",
+                        "shengXiao": "猪",
+                        "wuXing": "水"
+                    },
+                    {
+                        "color": 3,
+                        "number": "17",
+                        "shengXiao": "鼠",
+                        "wuXing": "火"
+                    },
+                    {
+                        "color": 3,
+                        "number": "28",
+                        "shengXiao": "牛",
+                        "wuXing": "水"
+                    },
+                    {
+                        "color": 3,
+                        "number": "16",
+                        "shengXiao": "牛",
+                        "wuXing": "火"
+                    },
+                    {
+                        "color": 2,
+                        "number": "04",
+                        "shengXiao": "牛",
+                        "wuXing": "土"
+                    },
+                    {
+                        "color": 2,
+                        "number": "20",
+                        "shengXiao": "鸡",
+                        "wuXing": "水"
+                    },
+                    {
+                        "color": 1,
+                        "number": "02",
+                        "shengXiao": "兔",
+                        "wuXing": "金"
+                    }
+                ],
+                "period": 75,
+                "year": 2024
+            },
+            {
+                "id": 20240743,
+                "lotteryTime": "2024年03月14日",
+                "lotteryType": 3,
+                "numberList": [{
+                        "color": 2,
+                        "number": "04",
+                        "shengXiao": "牛",
+                        "wuXing": "土"
+                    },
+                    {
+                        "color": 2,
+                        "number": "26",
+                        "shengXiao": "兔",
+                        "wuXing": "土"
+                    },
+                    {
+                        "color": 1,
+                        "number": "40",
+                        "shengXiao": "牛",
+                        "wuXing": "金"
+                    },
+                    {
+                        "color": 2,
+                        "number": "14",
+                        "shengXiao": "兔",
+                        "wuXing": "木"
+                    },
+                    {
+                        "color": 2,
+                        "number": "41",
+                        "shengXiao": "鼠",
+                        "wuXing": "金"
+                    },
+                    {
+                        "color": 3,
+                        "number": "22",
+                        "shengXiao": "羊",
+                        "wuXing": "木"
+                    },
+                    {
+                        "color": 1,
+                        "number": "45",
+                        "shengXiao": "猴",
+                        "wuXing": "木"
+                    }
+                ],
+                "period": 74,
+                "year": 2024
+            }
+        ],
+        "refresh": false
+    },
+    "msg": "操作成功",
+    "serverTime": 1710815101237,
+    "subCode": 10000,
+    "subMsg": "操作成功",
+    "success": true
+}
