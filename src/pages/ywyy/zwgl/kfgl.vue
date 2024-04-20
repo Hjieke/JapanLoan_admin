@@ -39,8 +39,8 @@
      
 
       <template slot="control" slot-scope="text, record">
-        <a @click="editHandle(record)">编辑</a>
-        <a-divider type="vertical" />
+        <!-- <a @click="editHandle(record)">编辑</a> -->
+        <!-- <a-divider type="vertical" /> -->
         <a @click="delHandle(record)">删除</a>
       </template>
     </a-table>
@@ -67,9 +67,7 @@
             placeholder="客服名称"
             v-decorator="[
               'kefu_name',
-              {
-                rules: [{ required: true, message: '客服名称' }],
-              },
+              
             ]"
           />
         </a-form-item>
@@ -79,9 +77,7 @@
             placeholder="客服地址"
             v-decorator="[
               'kefu_url',
-              {
-                rules: [{ required: true, message: '客服地址' }],
-              },
+               
             ]"
           />
         </a-form-item>
@@ -107,14 +103,23 @@
         :label-col="{ span: 5 }"
         :wrapper-col="{ span: 12 }"
       >
+
+      <a-form-item style="display: none;" label="id">
+          <a-input
+            placeholder="id"
+            v-decorator="[
+              'id',
+              
+            ]"
+          />
+        </a-form-item>
+
         <a-form-item label="客服名称">
           <a-input
             placeholder="客服名称"
             v-decorator="[
               'kefu_name',
-              {
-                rules: [{ required: true, message: '客服名称' }],
-              },
+              
             ]"
           />
         </a-form-item>
@@ -124,9 +129,7 @@
             placeholder="客服地址"
             v-decorator="[
               'kefu_url',
-              {
-                rules: [{ required: true, message: '客服地址' }],
-              },
+             
             ]"
           />
         </a-form-item>
@@ -209,7 +212,7 @@ export default {
       }),
       editvisible: false, //是否展示编辑弹窗
       editconfirmLoading: false, //是否展示编辑加载
-      editform: this.$form.createForm(this, { nick_name: "昵称" }), //新增表单
+      editform: this.$form.createForm(this),
       searchform: this.$form.createForm(this, {}), //搜索表单
       tableData: [
        
@@ -233,8 +236,6 @@ export default {
           dataIndex: "control",
           scopedSlots: { customRender: "control" },
         },],
- 
-
       //上传
       loading: false,
       imageUrl: "",
@@ -415,7 +416,6 @@ export default {
     viewHandle(record) {
        if (record.pdf_url!="") {
         window.open(record.pdf_url, '_blank');
-         
        }
         // 处理查看操作，例如打开一个对话框或者导航到一个详细页面
         console.log('查看详情:', record);
@@ -460,25 +460,20 @@ export default {
       this.getwjglListData();
     },
     async getwjglListData(param) {
-      let res = await this.$api.YHGL.GetMoney_Card({
+      let res = await this.$api.YHGL.GetKe_fu_Opt({
+        method:"select",
         pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize,
-        // lotteryType: 3,
-        // lotteryStatus: 3,
-        // year: 2024,
-        // sort: 1,
+    
         ...param,
       });
       console.log(res);
    
-      this.tableData = res.rows.map((e, index) => {
+      this.tableData = res.data.rows.map((e, index) => {
         try {
           e.key = e.id;
-          e.he_status=this.gethe_status(e.he_status)
-          
           return e;
         } catch (error) {
-          
           return e;
         }
       });
@@ -630,38 +625,26 @@ export default {
       e.preventDefault();
       this.addform.validateFields((err, values) => {
         if (!err) {
-          console.log("新增参数", values);
-          console.log(moment(values.time).format("HH时mm分"));
-          console.log(
-            JSON.stringify({
-              ...values,
-              numberList: this.numberList,
-              lotteryTime:
-                moment(values.lotteryTime).format("YYYY年MM月DD日") +
-                moment(values.time).format("HH时mm分"),
-              lotteryStatus: values.lotteryStatus ? 1 : 0,
-            })
-          );
-          this.addwjglListData({
-            ...values,
-            numberList: this.numberList,
-            lotteryTime:
-              moment(values.lotteryTime).format("YYYY年MM月DD日") +
-              moment(values.time).format("HH时mm分"),
-            lotteryStatus: values.lotteryStatus ? 1 : 0,
-          });
+           this.addwjglListData("add",values);
         }
       });
     },
     //新增玩家
-    addwjglListData(param) {
-      this.$api.YHGL.addwjglListData(param)
+    addwjglListData(method,paramdata) {
+
+      this.$api.YHGL.GetKe_fu_Opt({
+        method:method,
+        pageNo: this.pagination.pageNo,
+        pageSize: this.pagination.pageSize,
+         
+      },paramdata)
         .then((res) => {
           if (res.success) {
-            this.$message.success("玩家添加成功");
+            this.$message.success("成功");
+            this.addform=null;
             this.getwjglListData();
           } else {
-            this.$message.error("玩家添加失败");
+            this.$message.error("失败");
           }
           this.addvisible = false;
         })
@@ -705,6 +688,9 @@ export default {
     //编辑确认表单
     editHandleSubmit(e) {
       e.preventDefault();
+      let updObj=this.editform.getFieldsValue();
+      debugger;
+      this.addwjglListData("upd",updObj);
       // this.numberList
       // this.editwjglListData(values);
     },
@@ -772,7 +758,7 @@ export default {
     //删除内容
     delHandle(record) {
       console.log(record);
-      this.delwjglListData({ lorrryid: record.keyid });
+      this.addwjglListData("del",{id:record.id});
     },
     //删除接口
     delwjglListData(param) {
@@ -792,8 +778,21 @@ export default {
     },
     //编辑操作
     editHandle(e) {
+      debugger;
+      
       this.editvisible = true; //展示编辑弹窗
-      this.numberList = e.numberList;
+
+      this.$nextTick(() => {
+        this.editform.setFieldsValue({
+          id: e.id,
+          kefu_name: e.kefu_name,
+          kefu_url: e.kefu_url,
+        });
+      });
+
+    
+
+    console.log('Form Values Set:', this.editform.getFieldsValue());
     },
     //上下分操作
     sxfHandle(e) {

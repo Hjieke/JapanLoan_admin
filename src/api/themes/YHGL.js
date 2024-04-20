@@ -49,6 +49,45 @@ export default class YHGL {
         return res.data;
       }
     }
+
+
+
+
+       //客服管理增删改查  
+   static async GetKe_fu_Opt(params,paramdata) {
+    if (window.globalConfig.isLocalData) { //是否使用本地数据
+      let res = await axios.get(`/data/ywyy/yhgl/玩家管理.json`);
+      return res.data.data;
+    } else { //使用接口数据
+      let requestBody={
+        "kefu_url": "",
+        "kefu_name": ""
+      };
+      if (params.method=="add") {
+        requestBody={
+          "kefu_url": paramdata.kefu_url,
+          "kefu_name": paramdata.kefu_name
+        }
+      }
+      if (params.method=="upd") {
+        requestBody={
+          "id":paramdata.id,
+          "kefu_url": paramdata.kefu_url,
+          "kefu_name": paramdata.kefu_name
+        }
+      }
+      if (params.method=="del") {
+        requestBody={
+          "id":paramdata.id,
+          "kefu_url": paramdata.kefu_url,
+          "kefu_name": paramdata.kefu_name
+        }
+      }
+      let res = await axios.post(`/apiUrl/api/Ke_fu/Opt` + Util.getParams(params),requestBody);
+     
+      return res.data;
+    }
+  }
  
 
 
