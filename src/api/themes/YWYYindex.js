@@ -13,11 +13,7 @@ export default class YWYYindex {
       let res = await axios.get(`/data/ywyy/index/首页.json`);
       return res;
     } else { //使用接口数据
-      let res = await axios.post(`/apiUrl/api/adminLogin`, {
-        id:"1",
-        account,
-        password
-      });
+      let res = await axios.get(`/apiUrl/api/Account/login?account=${account}&password=${password}`);
       return res;
     }
   }

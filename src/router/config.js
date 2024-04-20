@@ -164,15 +164,20 @@ const options = {
               component: () => import('@/pages/ywyy/zwgl/jklb.vue'),
             },
             {
-              path: 'htgl',
-              name: '合同管理',
-              component: () => import('@/pages/ywyy/zwgl/htgl.vue'),
+              path: 'kfgl',
+              name: '客服管理',
+              component: () => import('@/pages/ywyy/zwgl/kfgl.vue'),
             },
             {
               path: 'xtsz',
               name: '系统设置',
               component: () => import('@/pages/ywyy/zwgl/xtsz.vue'),
             },
+             // {
+            //   path: 'htgl',
+            //   name: '合同管理',
+            //   component: () => import('@/pages/ywyy/zwgl/htgl.vue'),
+            // },
             // {
             //   path: 'cspz',
             //   name: '参数配置',

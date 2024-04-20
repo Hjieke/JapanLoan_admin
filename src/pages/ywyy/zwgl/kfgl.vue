@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-form class="ant-advanced-search-form" :form="searchform">
+    <!-- <a-form class="ant-advanced-search-form" :form="searchform">
       <a-row :gutter="24">
         <a-col :span="6">
           <a-form-item label="登录账号">
@@ -21,8 +21,13 @@
       <a-button type="primary" @click="ToSearch">查询</a-button>
       &nbsp;&nbsp; &nbsp;&nbsp;
       <a-button @click="reset">重置</a-button>
-    </div>
+    </div> -->
     
+
+     
+    <div class="table-operator add">
+      <a-button type="primary" icon="plus" @click="showAddModal">新增</a-button>
+    </div>
     <a-table
       class="iphmdTable"
       :row-selection="rowSelection"
@@ -31,50 +36,104 @@
       @change="tableChange"
       :pagination="pagination"
     >
-      <template slot="avatar" slot-scope="text, record">
-        <img height="30px" :src="record.avatar" alt="" />
-      </template>
-      <template slot="status" slot-scope="text, record">
-        {{ record.status == 1 ? "启用" : "禁用" }}
-      </template>
-
-      <template slot="ti_xian_status" slot-scope="text, record">
-        {{ record.ti_xian_status == 1 ? "启用" : "禁用" }}
-      </template>
-
-      <template slot="tou_zhu_status" slot-scope="text, record">
-        {{ record.tou_zhu_status == 1 ? "启用" : "禁用" }}
-      </template>
-      <template slot="lotteryType" slot-scope="text, record">
-        {{ getType(record) || "-" }}
-      </template>
-      <template slot="lotteryStatus" slot-scope="text, record">
-        {{ text == 1 ? "已开奖" : "未开奖" }}
-      </template>
-      <template slot="pdf_url" slot-scope="text, record">
-        <a @click="viewHandle(record)">查看</a>
-      </template>
-
-      <template slot="number" slot-scope="text, record">
-        <div
-          class="number bg-border-style"
-          :class="'bg-border-' + getBgColor(text, record)"
-          style="width: 50px; height: 50px"
-        >
-          <span class="span1">{{ text.number || 0 }}</span
-          ><span class="span2"
-            >{{ text.wuXing || "-" }}/{{ text.shengXiao || "-" }}</span
-          >
-        </div>
-      </template>
+     
 
       <template slot="control" slot-scope="text, record">
         <a @click="editHandle(record)">编辑</a>
         <a-divider type="vertical" />
-        <!-- <a @click="delHandle(record)">删除</a> -->
+        <a @click="delHandle(record)">删除</a>
       </template>
     </a-table>
+    
+
+    <a-modal
+      title="新增"
+      :visible="addvisible"
+      :confirm-loading="addconfirmLoading"
+      @ok="addHandleSubmit"
+      @cancel="handleCancel"
+      okText="ok"
+      width="900px"
+      cancelText="cancel"
+    >
+      <a-form
+        :form="addform"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 12 }"
+        @submit="addHandleSubmit"
+      >
+      <a-form-item label="客服名称">
+          <a-input
+            placeholder="客服名称"
+            v-decorator="[
+              'kefu_name',
+              {
+                rules: [{ required: true, message: '客服名称' }],
+              },
+            ]"
+          />
+        </a-form-item>
+      
+        <a-form-item label="客服地址">
+          <a-input
+            placeholder="客服地址"
+            v-decorator="[
+              'kefu_url',
+              {
+                rules: [{ required: true, message: '客服地址' }],
+              },
+            ]"
+          />
+        </a-form-item>
  
+       
+      
+        
+       
+      </a-form>
+    </a-modal>
+    <a-modal
+      title="编辑"
+      :visible="editvisible"
+      :confirm-loading="editconfirmLoading"
+      @ok="editHandleSubmit"
+      @cancel="edithandleCancel"
+      okText="ok"
+      width="900px"
+      cancelText="cancel"
+    >
+      <a-form
+        :form="editform"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 12 }"
+      >
+        <a-form-item label="客服名称">
+          <a-input
+            placeholder="客服名称"
+            v-decorator="[
+              'kefu_name',
+              {
+                rules: [{ required: true, message: '客服名称' }],
+              },
+            ]"
+          />
+        </a-form-item>
+      
+        <a-form-item label="客服地址">
+          <a-input
+            placeholder="客服地址"
+            v-decorator="[
+              'kefu_url',
+              {
+                rules: [{ required: true, message: '客服地址' }],
+              },
+            ]"
+          />
+        </a-form-item>
+ 
+         
+      </a-form>
+    </a-modal>
    
   </div>
 </template>
@@ -162,30 +221,12 @@ export default {
           dataIndex: "id",
         },
         {
-          title: "申请用户名",
-          dataIndex: "account",
+          title: "客服名称",
+          dataIndex: "kefu_name",
         },
         {
-          title: "申请时间",
-          dataIndex: "com_date",
-        },
-        {
-          title: "申请金额",
-          dataIndex: "money",
-        },
-        {
-          title: "申请周期",
-          dataIndex: "month",
-        },
-        {
-          title: "合同详情",
-          dataIndex: "pdf_url",
-          key: 'pdf_url',
-          scopedSlots: { customRender: 'pdf_url' }, 
-        },
-        {
-          title: "审核状态",
-          dataIndex: "he_status",
+          title: "客服地址",
+          dataIndex: "kefu_url",
         },
         {
           title: "操作",

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <a-form class="ant-advanced-search-form" :form="searchform">
+    <a-form class="ant-advanced-search-form" :form="searchform">
       <a-row :gutter="24">
         <a-col :span="6">
           <a-form-item label="登录账号">
@@ -16,12 +16,12 @@
           </a-form-item>
         </a-col>
       </a-row>
-    </a-form> -->
-    <!-- <div class="table-operator">
+    </a-form>
+    <div class="table-operator">
       <a-button type="primary" @click="ToSearch">查询</a-button>
       &nbsp;&nbsp; &nbsp;&nbsp;
       <a-button @click="reset">重置</a-button>
-    </div> -->
+    </div>
     <div class="table-operator add">
       <a-button type="primary" icon="plus" @click="showAddModal">新增</a-button>
       <a-modal
@@ -40,118 +40,43 @@
           :wrapper-col="{ span: 12 }"
           @submit="addHandleSubmit"
         >
-          <a-form-item label="年份">
+          <a-form-item label="账户名称">
             <a-input-number
-              placeholder="年份"
+              placeholder="账户名称"
               v-decorator="[
                 'year',
                 {
-                  rules: [{ required: true, message: '年份' }],
+                  rules: [{ required: true, message: '账户名称' }],
                 },
               ]"
               :min="0"
             >
             </a-input-number>
           </a-form-item>
-          <a-form-item label="开奖时间">
+          <a-form-item label="账户密码">
             <a-date-picker
               v-decorator="[
                 'lotteryTime',
                 {
-                  rules: [{ required: true, message: '开奖时间' }],
+                  rules: [{ required: true, message: '账户密码' }],
                 },
               ]"
               style="width: 50%"
             />
-            <a-time-picker
-              v-decorator="[
-                'time',
-                {
-                  rules: [{ required: true, message: '开奖时间' }],
-                },
-              ]"
-              @change="onChangeTimer"
-            />
+            
           </a-form-item>
-          <a-form-item label="是否为预设开奖">
+          <a-form-item label="是否为管理员">
             <a-switch
               default-checked
               v-decorator="[
                 'lotteryStatus',
                 {
-                  rules: [{ required: false, message: '是否为预设开奖' }],
+                  rules: [{ required: false, message: '是否为管理员' }],
                 },
               ]"
             />
           </a-form-item>
-          <a-form-item label="期号">
-            <a-input-number
-              placeholder="期号"
-              v-decorator="[
-                'lottid',
-                {
-                  rules: [{ required: true, message: '期号' }],
-                },
-              ]"
-              :min="0"
-            >
-            </a-input-number>
-          </a-form-item>
-          <a-form-item label="第*期">
-            <a-input-number
-              placeholder="期数"
-              v-decorator="[
-                'period',
-                {
-                  rules: [{ required: true, message: '第*期' }],
-                },
-              ]"
-              :min="0"
-            >
-            </a-input-number>
-          </a-form-item>
-          <a-form-item
-            :label="'号码' + (i + 1)"
-            v-for="(ele, i) in numberList"
-            :key="i"
-          >
-            <a-select
-              style="width: 33%"
-              placeholder="号码"
-              v-model="ele.number"
-            >
-              <a-select-option
-                v-for="(item, index) in 49"
-                :key="index"
-                :value="`${item < 10 ? '0' + item : item}`"
-                >{{ item < 10 ? "0" + item : item }}</a-select-option
-              >
-            </a-select>
-            <a-select
-              style="width: 33%"
-              placeholder="生肖"
-              v-model="ele.shengXiao"
-            >
-              <a-select-option
-                v-for="(item, index) in zodiacList"
-                :key="index"
-                :value="item"
-                >{{ item }}</a-select-option
-              >
-            </a-select>
-            <a-select
-              style="width: 33%"
-              placeholder="五行"
-              v-model="ele.wuXing"
-            >
-              <a-select-option
-                v-for="(item, index) in wuxingList"
-                :key="index"
-                :value="item"
-                >{{ item }}</a-select-option
-              >
-            </a-select>
-          </a-form-item>
+      
         </a-form>
       </a-modal>
     </div>
@@ -896,7 +821,7 @@ export default {
     },
     async getwjglListData(param) {
       let res = await this.$api.YHGL.getwjglListData({
-        pageNum: this.pagination.pageNo,
+        pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize,
         lotteryType: 3,
         lotteryStatus: 3,
@@ -905,38 +830,19 @@ export default {
         ...param,
       });
       console.log(res);
-      this.tableData = res.recordList.map((e, index) => {
+     
+      this.tableData = res.rows.map((e, index) => {
         try {
           e.key = e.id;
-          // if (e.playerExt) {
-          //   //最新充值时间
-          //   e.playerExt.rechTime = Utils.getYMDHMS(e.playerExt.rechTime); //将时间戳转为yyyymmddmmss
-          // }
-          //拿每个球的值
-          try {
-            e.numberList.forEach((ele, i) => {
-              e["number" + (i + 1)] = ele;
-            });
-          } catch (error) {
-            for (let k = 0; k < 7; k++) {
-              e["number" + (k + 1)] = {
-                color: 1,
-                number: "",
-                shengXiao: "",
-                wuXing: "",
-              };
-            }
-            // e.numberList=[]
-            console.log(error);
-          }
+          
+          
           return e;
         } catch (error) {
-          console.log(error, e);
-          e.key = index;
+          
           return e;
         }
       });
-      this.pagination.total = res.pager.totalCount || 10;
+      this.pagination.total = res.totalRows || 10;
     },
     showAddModal() {
       this.addvisible = true;
