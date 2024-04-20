@@ -1,18 +1,15 @@
 <template>
   <div>
-    <a-form class="ant-advanced-search-form" :form="searchform">
+    <!-- <a-form class="ant-advanced-search-form" :form="searchform">
       <a-row :gutter="24">
         <a-col :span="6">
           <a-form-item label="登录账号">
-            <a-input
-              placeholder="登录账号"
-              v-decorator="[
+            <a-input placeholder="登录账号" v-decorator="[
                 'account',
                 {
                   rules: [{ required: false, message: '登录账号' }],
                 },
-              ]"
-            />
+              ]" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -21,16 +18,10 @@
       <a-button type="primary" @click="ToSearch">查询</a-button>
       &nbsp;&nbsp; &nbsp;&nbsp;
       <a-button @click="reset">重置</a-button>
-    </div>
-    
-    <a-table
-      class="iphmdTable"
-      :row-selection="rowSelection"
-      :columns="columnsData"
-      :data-source="tableData"
-      @change="tableChange"
-      :pagination="pagination"
-    >
+    </div> -->
+
+    <a-table class="iphmdTable" :row-selection="rowSelection" :columns="columnsData" :data-source="tableData"
+      @change="tableChange" :pagination="pagination">
       <template slot="avatar" slot-scope="text, record">
         <img height="30px" :src="record.avatar" alt="" />
       </template>
@@ -56,26 +47,29 @@
       </template>
 
       <template slot="number" slot-scope="text, record">
-        <div
-          class="number bg-border-style"
-          :class="'bg-border-' + getBgColor(text, record)"
-          style="width: 50px; height: 50px"
-        >
-          <span class="span1">{{ text.number || 0 }}</span
-          ><span class="span2"
-            >{{ text.wuXing || "-" }}/{{ text.shengXiao || "-" }}</span
-          >
+        <div class="number bg-border-style" :class="'bg-border-' + getBgColor(text, record)"
+          style="width: 50px; height: 50px">
+          <span class="span1">{{ text.number || 0 }}</span><span class="span2">{{ text.wuXing || "-" }}/{{
+            text.shengXiao || "-" }}</span>
         </div>
       </template>
-
       <template slot="control" slot-scope="text, record">
+        <div v-if="record.he_status == '通过' || record.he_status=='驳回'">
+          <span>已审批</span>
+        </div>
+        <div v-else>
+          <a-button @click="approve(record.key, '1')" type="primary">通过</a-button>
+          <a-button @click="reject(record.key, '2')" type="danger">不通过</a-button>
+        </div>
+      </template>
+      <!-- <template slot="control" slot-scope="text, record">
         <a @click="editHandle(record)">编辑</a>
         <a-divider type="vertical" />
-        <!-- <a @click="delHandle(record)">删除</a> -->
-      </template>
+        <a @click="delHandle(record)">删除</a>
+      </template> -->
     </a-table>
- 
-   
+
+
   </div>
 </template>
 
@@ -249,6 +243,27 @@ export default {
     },
   },
   methods: {
+
+     approve(key,status) {
+      
+      this.updateStatus(key,status)
+      },
+     reject(key,status) {
+       // 找到数据项
+       this.updateStatus(key,status)
+     },
+   async updateStatus(itemid,status) {
+    debugger;
+      // 模拟发送数据到服务器
+      let res = await this.$api.YHGL.setShenheSataus({
+        contractId: itemid,
+        status: status,
+      });
+      console.log(res);
+      if (res!=null) {
+        this.getData();
+      }
+    },
     //年份发生变化
     yearpanelChange(e) {
       console.log(e);

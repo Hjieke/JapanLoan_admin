@@ -24,6 +24,18 @@ export default class YHGL {
       return res.data.data;
     }
   }
+
+
+     //更改审核状态
+     static async setShenheSataus(params) {
+      if (window.globalConfig.isLocalData) { //是否使用本地数据
+        let res = await axios.get(`/data/ywyy/yhgl/玩家管理.json`);
+        return res.data.data;
+      } else { //使用接口数据
+        let res = await axios.get(`/apiUrl/api/Money_Card/shen_he` + Util.getParams(params));
+        return res.data.data;
+      }
+    }
    
 
     //获取配置文件接口

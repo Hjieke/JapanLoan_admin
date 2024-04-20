@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-form class="ant-advanced-search-form" :form="searchform">
+    <!-- <a-form class="ant-advanced-search-form" :form="searchform">
       <a-row :gutter="24">
         <a-col :span="6">
           <a-form-item label="登录账号">
@@ -21,8 +21,8 @@
       <a-button type="primary" @click="ToSearch">查询</a-button>
       &nbsp;&nbsp; &nbsp;&nbsp;
       <a-button @click="reset">重置</a-button>
-    </div>
-    <div class="table-operator add">
+    </div> -->
+    <!-- <div class="table-operator add">
       <a-button type="primary" icon="plus" @click="showAddModal">新增</a-button>
       <a-modal
         title="新增"
@@ -79,7 +79,7 @@
       
         </a-form>
       </a-modal>
-    </div>
+    </div> -->
     <a-table
       class="iphmdTable"
       :row-selection="rowSelection"

@@ -29,11 +29,11 @@
           <a-input v-model="systemData.li_lv" placeholder="输入系统计算利率" />
         </a-form-item>
       </a-col>
-      <!-- <a-col span="12">
-        <a-form-item label="客服地址">
-          <a-input v-model="systemData.ke_fu" placeholder="输入系统跳转客服地址" />
+      <a-col span="12">
+        <a-form-item label="审批后的内容">
+          <a-input v-model="systemData.sptgContent" placeholder="输入审批后的内容" />
         </a-form-item>
-      </a-col> -->
+      </a-col>
     </a-row>
   </a-form>
     <a-row>
