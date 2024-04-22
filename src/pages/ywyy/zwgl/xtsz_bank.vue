@@ -5,38 +5,39 @@
 
       <a-row>
         <a-col span="12">
-          <a-form-item label="公告设置">
-            <a-input v-model="systemData.gonggao" placeholder="输入公告设置" />
+          <a-form-item label="銀行名">
+            <a-input v-model="systemData.bank_name" placeholder="输入銀行名" />
           </a-form-item>
         </a-col>
 
         <a-col span="12">
-          <a-form-item label="最小金额">
-            <a-input v-model="systemData.min_money" placeholder="最小金额" />
+          <a-form-item label="支店名">
+            <a-input v-model="systemData.branch_name" placeholder="支店名" />
           </a-form-item>
         </a-col>
 
-        <a-col span="12">
-          <a-form-item label="默认金额">
-            <a-input v-model="systemData.money" placeholder="输入系统默认金额" />
-          </a-form-item>
-        </a-col>
 
         <a-col span="12">
-          <a-form-item label="审批时间">
-            <a-input v-model="systemData.time" placeholder="输入系统审批时间" />
+          <a-form-item label="支店番号">
+            <a-input v-model="systemData.bank_code" placeholder="支店番号" />
 
           </a-form-item>
         </a-col>
 
         <a-col span="12">
-          <a-form-item label="利率">
-            <a-input v-model="systemData.li_lv" placeholder="输入系统计算利率" />
+          <a-form-item label="口座番号">
+            <a-input v-model="systemData.kou_zuo" placeholder="口座番号" />
           </a-form-item>
         </a-col>
         <a-col span="12">
-          <a-form-item label="审批后的内容">
-            <a-input v-model="systemData.sptgContent" placeholder="输入审批后的内容" />
+          <a-form-item label="名前">
+            <a-input v-model="systemData.ming_qian" placeholder="名前" />
+          </a-form-item>
+        </a-col>
+
+        <a-col span="12">
+          <a-form-item label="取引">
+            <a-input v-model="systemData.qu_yin" placeholder="取引" />
           </a-form-item>
         </a-col>
 
@@ -119,13 +120,9 @@ export default {
     },
 
     async handleSubmit() {
-      this.systemData.money = parseInt(this.systemData.money)
-      this.systemData.time = parseInt(this.systemData.time)
-      this.systemData.li_lv = parseFloat(this.systemData.li_lv)
 
-      this.systemData.min_money = parseInt(this.systemData.min_money)
       console.log('保存的数据:', this.systemData);
-      let res = await this.$api.YHGL.SetsystemConfig(this.systemData);
+      let res = await this.$api.YHGL.set_system_bank(this.systemData);
       if (res != null) {
 
         if (res.success == true) {
@@ -154,7 +151,7 @@ export default {
       this.Getsystemconfig();
     },
     async Getsystemconfig() {
-      let res = await this.$api.YHGL.Getsystemconfig();
+      let res = await this.$api.YHGL.get_system_bank();
 
       this.systemData = res;
     },

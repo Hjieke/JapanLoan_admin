@@ -1,98 +1,61 @@
 <template>
   <div>
+    <!-- <a-form class="ant-advanced-search-form" :form="searchform">
+      <a-row :gutter="24">
+        <a-col :span="6">
+          <a-form-item label="登录账号">
+            <a-input
+              placeholder="登录账号"
+              v-decorator="[
+                'account',
+                {
+                  rules: [{ required: false, message: '登录账号' }],
+                },
+              ]"
+            />
+          </a-form-item>
+        </a-col>
+      </a-row>
+    </a-form>
+    <div class="table-operator">
+      <a-button type="primary" @click="ToSearch">查询</a-button>
+      &nbsp;&nbsp; &nbsp;&nbsp;
+      <a-button @click="reset">重置</a-button>
+    </div> -->
 
 
-    <a-modal title="编辑" :visible="editvisible" :confirm-loading="addconfirmLoading" @ok="edit_HandleSubmit"
-      @cancel="edit_handleCancel" okText="ok" width="900px" cancelText="cancel">
-      <a-form :form="editform" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="edit_HandleSubmit">
 
-        <a-form-item label="id" hidden>
-          <a-input placeholder="id" v-decorator="[
-            'id',
-            {
-              rules: [{ required: false, message: 'id' }],
-            },
-          ]" />
-        </a-form-item>
-        <a-form-item label="申请用户名">
-
-
-          <a-input placeholder="申请用户名" readonly v-decorator="[
-            'account',
-            {
-              rules: [{ required: false, message: '申请用户名' }],
-            },
-          ]" />
-        </a-form-item>
-
-
-        <a-form-item label="状态">
-          <a-select v-model="selectedStatus" placeholder="请选择状态" @change="handleChange" style="width: 400px;">
-            <a-select-option v-for="status in selected_data" :key="status.status" :value="status.status">
-              {{ status.name }}
-            </a-select-option>
-          </a-select>
-        </a-form-item>
-      </a-form>
-    </a-modal>
-
-
-    <a-table class="iphmdTable" :row-selection="rowSelection" :columns="columnsData" :data-source="tableData"
-      @change="tableChange" :pagination="pagination">
-      <template slot="avatar" slot-scope="text, record">
-        <img height="30px" :src="record.avatar" alt="" />
-      </template>
-      <template slot="status" slot-scope="text, record">
-        {{ record.status == 1 ? "启用" : "禁用" }}
-      </template>
-
-      <template slot="ti_xian_status" slot-scope="text, record">
-        {{ record.ti_xian_status == 1 ? "启用" : "禁用" }}
-      </template>
-
-      <template slot="tou_zhu_status" slot-scope="text, record">
-        {{ record.tou_zhu_status == 1 ? "启用" : "禁用" }}
-      </template>
-      <template slot="lotteryType" slot-scope="text, record">
-        {{ getType(record) || "-" }}
-      </template>
-
-      <template slot="pdf_url" slot-scope="text, record">
-        <a @click="viewHandle(record)">查看</a>
-      </template>
-
-      <template slot="number" slot-scope="text, record">
-        <div class="number bg-border-style" :class="'bg-border-' + getBgColor(text, record)"
-          style="width: 50px; height: 50px">
-          <span class="span1">{{ text.number || 0 }}</span><span class="span2">{{ text.wuXing || "-" }}/{{
-            text.shengXiao || "-" }}</span>
-        </div>
-      </template>
+    <div class="table-operator add">
+      <!-- <a-button type="primary" icon="plus" @click="showAddModal">新增</a-button> -->
+    </div>
+    <a-table class="iphmdTable" :row-selection="rowSelection" :columns="columnsData.filter(column => column.visible)"
+      :data-source="tableData" @change="tableChange" :pagination="pagination">
 
       <template slot="control" slot-scope="text, record">
-        <a @click="editHandle(record)">编辑</a>
+        <!-- <a @click="editHandle(record)">编辑</a> -->
+        <!-- <a-divider type="vertical" /> -->
+
+        <div v-if="record.status == 0">
+          <a @click="delHandle(record, '1')">通过</a>
+          <a-divider type="vertical" />
+          <a @click="delHandle(record, '2')">不通过</a>
+        </div>
+
+        <div v-else></div>
+
+
 
       </template>
     </a-table>
-
-
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import Utils from "@/utils/common.js";
-
-import moment from "moment";
-import { tr } from 'date-fns/locale';
-
 export default {
   name: "iphmd",
   data() {
     return {
-
-      selected_data: [],
-
       xjlsLoginName: "", //资金流水唯一标识
       //会员详情信息
       vipinfo: {
@@ -152,10 +115,9 @@ export default {
         // password: "登录密码",
         // status: 1,
       }),
-      selectedStatus: "",
       editvisible: false, //是否展示编辑弹窗
       editconfirmLoading: false, //是否展示编辑加载
-      editform: this.$form.createForm(this, { nick_name: "昵称" }), //新增表单
+      editform: this.$form.createForm(this),
       searchform: this.$form.createForm(this, {}), //搜索表单
       tableData: [
 
@@ -165,40 +127,36 @@ export default {
         {
           title: "id",
           dataIndex: "id",
+          visible: false,
         },
         {
-          title: "申请用户名",
-          dataIndex: "account",
+          title: "用户名称",
+          dataIndex: "account_name",
+          visible: true,
         },
         {
-          title: "申请时间",
-          dataIndex: "com_date",
+          title: "提现金额",
+          dataIndex: "money", visible: true,
         },
         {
-          title: "申请金额",
-          dataIndex: "money",
+          title: "userid",
+          dataIndex: "userid", visible: false,
         },
         {
-          title: "申请周期",
-          dataIndex: "month",
-        },
-        {
-          title: "合同详情",
-          dataIndex: "pdf_url",
-          key: 'pdf_url',
-          scopedSlots: { customRender: 'pdf_url' },
+          title: "提现时间",
+          dataIndex: "create_time", visible: true,
         },
         {
           title: "审核状态",
-          dataIndex: "he_content",
+          dataIndex: "status_string", visible: true,
         },
         {
           title: "操作",
           dataIndex: "control",
           scopedSlots: { customRender: "control" },
+
+          visible: true,
         },],
-
-
       //上传
       loading: false,
       imageUrl: "",
@@ -243,9 +201,7 @@ export default {
   },
   created() {
     this.getData();
-
   },
-
   watch: {
     $route(to, from) {
       console.log("路由变化", to.path);
@@ -256,69 +212,158 @@ export default {
     },
   },
   methods: {
-    editHandle(e) {
-      console.log(e, 'test')
-      this.editvisible = true; //展示编辑弹窗
-      this.$nextTick(() => {
-        // 数据填入
-        this.editform.setFieldsValue({
-          id: e.id,
-          account: e.account,
-        })
-        this.selectedStatus = e.he_content;
-        // 给下拉菜单赋值
-      });
+
+    //年份发生变化
+    yearpanelChange(e) {
+      console.log(e);
+      //设置表单值
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.addform.setFieldsValue({
+            year: e,
+          });
+          this.isOpen = false;
+        });
+      }, 500);
     },
-
-    async set_shenHe_status(id) {
-      let res = await this.$api.YHGL.setShenheSataus(
-        {
-          contractId: id,
-          status: this.selectedStatus
-        }
-      );
-      this.$message.success("修改成功");
-
-      this.editvisible = false;
-
-      this.getwjglListData();
-    },
-
-    edit_HandleSubmit(e) {
-      e.preventDefault();
-      this.editform.validateFields((err, values) => {
-        if (!err) {
-          console.log(values.id);
-          this.set_shenHe_status(values.id);
-        }
-      });
-
-    },
-    handleChange(value) {
-      this.selectedStatus = value; // 确保更新选中的状态
-    },
-
-    edit_handleCancel() {
-      this.editvisible = false;
-    },
-
-
-    reject(key, status) {
-      // 找到数据项
-      this.updateStatus(key, status)
-    },
-
-
     onChangeTimer(e) {
       console.log(e);
     },
-
+    //获取球色
+    getBgColor(text, record) {
+      let color = "";
+      let colorList = [
+        {
+          name: "red",
+          numberList: [
+            "01",
+            "02",
+            "07",
+            "08",
+            "12",
+            "13",
+            "18",
+            "19",
+            "23",
+            "24",
+            "29",
+            "30",
+            "34",
+            "35",
+            "40",
+            "45",
+            "46",
+          ],
+        },
+        {
+          name: "blue",
+          numberList: [
+            "03",
+            "04",
+            "09",
+            "10",
+            "14",
+            "15",
+            "20",
+            "25",
+            "26",
+            "31",
+            "36",
+            "37",
+            "41",
+            "42",
+            "47",
+            "48",
+          ],
+        },
+        {
+          name: "green",
+          numberList: [
+            "05",
+            "06",
+            "11",
+            "16",
+            "17",
+            "21",
+            "22",
+            "27",
+            "28",
+            "32",
+            "33",
+            "38",
+            "39",
+            "43",
+            "44",
+            "49",
+          ],
+        },
+      ];
+      //判断包含该数字的返回对应颜色
+      colorList.forEach((e) => {
+        try {
+          if (e.numberList.includes(text.number)) {
+            color = e.name;
+          }
+        } catch (error) {
+          console.log(error);
+          color = "white";
+        }
+      });
+      return color;
+    },
+    //获取类型
+    getType(record) {
+      let type = "";
+      switch (Number(record.lotteryType)) {
+        case 1:
+          type = "香港";
+          break;
+        case 2:
+          type = "澳门";
+          break;
+        case 3:
+          type = "六合彩";
+          break;
+        default:
+          break;
+      }
+      return type;
+    },
     //初始化
     init() {
       this.getData();
     },
 
+    // 查看详情
+    viewHandle(record) {
+      if (record.pdf_url != "") {
+        window.open(record.pdf_url, '_blank');
+      }
+      // 处理查看操作，例如打开一个对话框或者导航到一个详细页面
+      console.log('查看详情:', record);
+    },
 
+    //点击搜索
+    ToSearch(e) {
+      e.preventDefault();
+      this.$nextTick(() => {
+        this.searchform.validateFields((err, values) => {
+          if (!err) {
+            //unidentified的内容直接替换为了''
+            for (let k in values) {
+              console.log(values[k]);
+              if (values[k]) {
+                values[k] = values[k];
+              } else {
+                values[k] = "";
+              }
+            }
+            console.log("搜索", values);
+            this.getwjglListData(values);
+          }
+        });
+      });
+    },
     //表格变化
     tableChange(e) {
       this.pagination = e;
@@ -326,36 +371,29 @@ export default {
       console.log(e);
       this.getwjglListData();
     },
+    //切换编辑弹出选项
+    handleSelectChange(value) {
+      console.log(value);
+      this.editform.setFieldsValue({
+        status: value,
+      });
+    },
     getData() {
       this.getwjglListData();
     },
     async getwjglListData(param) {
-      let res = await this.$api.YHGL.GetMoney_Card({
+      let res = await this.$api.YHGL.ti_xian_page({
         pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize,
-        // lotteryType: 3,
-        // lotteryStatus: 3,
-        // year: 2024,
-        // sort: 1,
         ...param,
       });
       console.log(res);
 
-      let res1 = await this.$api.YHGL.get_shen_list({
-        pageNo: 1,
-        pageSize: 100,
-      })
-      console.log(res1, 'test')
-
-      this.selected_data = res1.rows;
-
       this.tableData = res.rows.map((e, index) => {
         try {
           e.key = e.id;
-
           return e;
         } catch (error) {
-
           return e;
         }
       });
@@ -417,8 +455,36 @@ export default {
         this.addconfirmLoading = false;
       }, 2000);
     },
-
-
+    //登录密码设置取消
+    pwdhandleCancel(e) {
+      console.log("Clicked cancel button");
+      this.pwdvisible = false;
+    },
+    //现金流水弹窗取消
+    moneyhandleCancel(e) {
+      console.log("Clicked cancel button");
+      this.moneyvisible = false;
+    },
+    //新增弹窗取消
+    handleCancel(e) {
+      console.log("Clicked cancel button");
+      this.addvisible = false;
+    },
+    //会员详情弹窗取消
+    viphandleCancel(e) {
+      console.log("Clicked cancel button");
+      this.vipvisible = false;
+    },
+    //上下分取消
+    sxfhandleCancel(e) {
+      console.log("Clicked cancel button");
+      this.sxfvisible = false;
+    },
+    //编辑取消
+    edithandleCancel(e) {
+      console.log("Clicked cancel button");
+      this.editvisible = false;
+    },
     //重置按钮
     reset() {
       this.pagination = {
@@ -435,6 +501,237 @@ export default {
       this.searchform.resetFields();
       //重置数据
       this.getData();
+    },
+    //登录密码设置确认
+    pwdHandleSubmit(e) {
+      e.preventDefault();
+      this.pwdform.validateFields((err, values) => {
+        if (!err) {
+          console.log("登录密码参数", values);
+          this.editwjglPasswordData(values);
+        }
+      });
+    },
+    //修改玩家登录密码
+    editwjglPasswordData(param) {
+      this.$api.YHGL.editwjglPasswordData(param)
+        .then((res) => {
+          if (res.success) {
+            this.$message.success("玩家密码修改成功");
+            this.getwjglListData();
+          } else {
+            this.$message.error("玩家密码修改失败");
+          }
+          this.pwdvisible = false;
+        })
+        .catch((err) => {
+          this.$message.error(err);
+          this.pwdvisible = false;
+        });
+    },
+    //现金流水弹窗确认
+    moneyHandleSubmit(e) {
+      e.preventDefault();
+      this.addform.validateFields((err, values) => {
+        if (!err) {
+          console.log("新增参数", values);
+          // this.addwjglListData(values);
+          this.moneyvisible = false;
+        }
+      });
+    },
+    //新增确认表单
+    addHandleSubmit(e) {
+      e.preventDefault();
+      this.addform.validateFields((err, values) => {
+        if (!err) {
+          this.addwjglListData("add", values);
+        }
+      });
+    },
+    //新增玩家
+    addwjglListData(method, paramdata) {
+
+      this.$api.YHGL.GetKe_fu_Opt({
+        method: method,
+        pageNo: this.pagination.pageNo,
+        pageSize: this.pagination.pageSize,
+
+      }, paramdata)
+        .then((res) => {
+          if (res.success) {
+            this.$message.success("成功");
+            this.addform = null;
+            this.getwjglListData();
+          } else {
+            this.$message.error("失败");
+          }
+          this.addvisible = false;
+        })
+        .catch((err) => {
+          this.$message.error(err);
+          this.addvisible = false;
+        });
+    },
+    //会员详情确认
+    vipHandleSubmit(e) {
+      e.preventDefault();
+      this.vipvisible = false;
+    },
+    //上下分确认
+    sxfHandleSubmit(e) {
+      e.preventDefault();
+      this.sxfform.validateFields((err, values) => {
+        if (!err) {
+          console.log("上下分参数", values);
+          this.wjsxfData(values);
+        }
+      });
+    },
+    //玩家上下分
+    wjsxfData(param) {
+      this.$api.YHGL.wjsxfData(param)
+        .then((res) => {
+          if (res.success) {
+            this.$message.success("保存成功");
+            this.getwjglListData();
+          } else {
+            this.$message.error("保存失败");
+          }
+          this.sxfvisible = false;
+        })
+        .catch((err) => {
+          this.$message.error(err);
+          this.sxfvisible = false;
+        });
+    },
+    //编辑确认表单
+    editHandleSubmit(e) {
+      e.preventDefault();
+      let updObj = this.editform.getFieldsValue();
+      debugger;
+      this.addwjglListData("upd", updObj);
+      // this.numberList
+      // this.editwjglListData(values);
+    },
+    //编辑玩家
+    editwjglListData(param) {
+      if (param.xin_yu_points != "") {
+        let intxinyu = Number(param.xin_yu_points);
+        param.xin_yu_points = intxinyu;
+      }
+      this.$api.YHGL.editwjglListData(param)
+        .then((res) => {
+          if (res.success) {
+            this.$message.success("玩家编辑成功");
+            this.getwjglListData();
+          } else {
+            this.$message.error("玩家编辑失败");
+          }
+          this.editvisible = false;
+        })
+        .catch((err) => {
+          this.$message.error(err);
+          this.editvisible = false;
+        });
+    },
+    //操作
+    controlHandle(type, payload) {
+      switch (type) {
+        case "会员资料":
+          this.vipvisible = true;
+          this.vipinfo = { ...payload, ...payload.playerExt };
+          break;
+        case "资金流水":
+          this.moneyvisible = true;
+          this.xjlsLoginName = payload.account;
+          break;
+        case "登录密码":
+          this.pwdvisible = true;
+          setTimeout(() => {
+            this.pwdform.setFieldsValue({
+              account: payload.account,
+              password: payload.password,
+              remark: payload.password,
+            });
+          }, 500);
+          break;
+        case "启用停用":
+          console.log(payload);
+          if (payload.status == "0") {
+            payload.status = "1";
+          } else {
+            payload.status = "0";
+          }
+          this.editwjglListData(payload);
+          break;
+        case "删除":
+          this.delwjglListData({
+            account: payload.account,
+          });
+          break;
+
+        default:
+          break;
+      }
+    },
+    //删除内容
+    delHandle(record, user_status) {
+
+      // 审核
+
+      this.shen_qu_xian(record, user_status)
+
+    },
+
+    async shen_qu_xian(record, user_status) {
+      await this.$api.YHGL.qu_xian_shen_he(record.id, record.userid, user_status)
+      await this.getwjglListData();
+    },
+    //删除接口
+    delwjglListData(param) {
+      this.$api.YHGL.delwjglListData(param)
+        .then((res) => {
+          if (res.success) {
+            this.$message.success("删除成功");
+            this.getwjglListData();
+          } else {
+            this.$message.error("删除失败");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message.error(err);
+        });
+    },
+    //编辑操作
+    editHandle(e) {
+      debugger;
+
+      this.editvisible = true; //展示编辑弹窗
+
+      this.$nextTick(() => {
+        this.editform.setFieldsValue({
+          id: e.id,
+          kefu_name: e.kefu_name,
+          kefu_url: e.kefu_url,
+        });
+      });
+
+
+
+      console.log('Form Values Set:', this.editform.getFieldsValue());
+    },
+    //上下分操作
+    sxfHandle(e) {
+      this.sxfvisible = true; //展示编辑弹窗
+      setTimeout(() => {
+        //设置表单值
+        this.$nextTick(() => {
+          e.balance = 0;
+          this.sxfform.setFieldsValue(e);
+        });
+      }, 500);
     },
   },
 };
