@@ -22,6 +22,17 @@ export default class YHGL {
     }
   }
 
+
+  static async ip_fangwen_page(params) {
+    if (window.globalConfig.isLocalData) { //是否使用本地数据
+      let res = await axios.get(`/data/ywyy/yhgl/玩家管理.json`);
+      return res.data.data;
+    } else { //使用接口数据
+      let res = await axios.post(`/apiUrl/api/Announcement/IpSelect`,params);
+      return res.data.data;
+    }
+  }
+
   // change_user_pws
 
   // Account/set_money_pwd?userId=1&password=2
