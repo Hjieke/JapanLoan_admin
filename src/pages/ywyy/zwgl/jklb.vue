@@ -1,6 +1,28 @@
 <template>
   <div>
 
+    <a-form class="ant-advanced-search-form" :form="searchform">
+      <a-row :gutter="24">
+
+        <a-col :span="6">
+          <a-form-item label="申请用户名">
+            <a-input placeholder="登录账号" v-decorator="[
+              'account',
+              {
+                rules: [{ required: false, message: '用户名' }],
+              },
+            ]" />
+          </a-form-item>
+        </a-col>
+
+      </a-row>
+    </a-form>
+    <div class="table-operator">
+      <a-button type="primary" @click="ToSearch">查询</a-button>
+      &nbsp;&nbsp; &nbsp;&nbsp;
+      <a-button @click="reset">重置</a-button>
+    </div>
+
 
     <a-modal title="编辑" :visible="editvisible" :confirm-loading="addconfirmLoading" @ok="edit_HandleSubmit"
       @cancel="edit_handleCancel" okText="ok" width="900px" cancelText="cancel">
@@ -37,8 +59,8 @@
     </a-modal>
 
 
-    <a-table class="iphmdTable" :row-selection="rowSelection" :columns="columnsData" :data-source="tableData"
-      @change="tableChange" :pagination="pagination">
+    <a-table class="iphmdTable" :row-selection="rowSelection" :columns="columnsData.filter(column => column.visible)"
+      :data-source="tableData" @change="tableChange" :pagination="pagination">
       <template slot="avatar" slot-scope="text, record">
         <img height="30px" :src="record.avatar" alt="" />
       </template>
@@ -74,17 +96,12 @@
 
       </template>
     </a-table>
-
-
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import Utils from "@/utils/common.js";
 
-import moment from "moment";
-import { tr } from 'date-fns/locale';
 
 export default {
   name: "iphmd",
@@ -95,36 +112,8 @@ export default {
 
       xjlsLoginName: "", //资金流水唯一标识
       //会员详情信息
-      vipinfo: {
-        account: "", //会员账号
-        agentName: "", //代理账号
-        realName: "", //会员姓名
-        type: "", //会员类型
-        balance: "", //余额
-        status: "", //状态
-        nick_name: "", //会员昵称
-        phone: "", //手机号
-        email: "", //邮箱
-        remark: "", //备注
-        rechCount: "", //充值次数
-        uwCount: "", //提现次数
-        rechMoney: "", //充值金额
-        uwMoney: "", //提现金额
-        rechTime: "", //最新充值时间
-        uwTime: "", //最近提现时间
-        regTime: "", //注册时间
-        regIp: "", //注册IP
-        lastLoginTime: "", //最近登录时间
-        lastLoginIp: "", //最近登录IP
-      },
-      moneyvisible: false, //是否展示现金流水弹窗
-      moneyconfirmLoading: false, //是否展示现金流水加载
-      pwdvisible: false, //是否展示登录密码弹窗
-      pwdconfirmLoading: false, //是否展示登录密码加载
-      vipvisible: false, //是否展示会员详情弹窗
-      vipconfirmLoading: false, //是否展示会员详情加载
-      addvisible: false, //是否展示新增弹窗
-      addconfirmLoading: false, //是否展示新增加载
+
+
       addform: this.$form.createForm(this, {
         account: "登录账号",
         nick_name: "昵称",
@@ -165,37 +154,43 @@ export default {
         {
           title: "id",
           dataIndex: "id",
+          visible: false,
         },
         {
           title: "申请用户名",
-          dataIndex: "account",
+          dataIndex: "account", visible: true,
         },
         {
           title: "申请时间",
-          dataIndex: "com_date",
+          dataIndex: "com_date", visible: true,
         },
         {
           title: "申请金额",
-          dataIndex: "money",
+          dataIndex: "money", visible: true,
         },
         {
           title: "申请周期",
-          dataIndex: "month",
+          dataIndex: "month", visible: true,
         },
         {
           title: "合同详情",
           dataIndex: "pdf_url",
           key: 'pdf_url',
-          scopedSlots: { customRender: 'pdf_url' },
+          scopedSlots: { customRender: 'pdf_url' }, visible: true,
         },
         {
           title: "审核状态",
-          dataIndex: "he_content",
+          dataIndex: "he_content", visible: true,
+        },
+        {
+          title: "合同时间",
+          dataIndex: "create_time", visible: true,
+
         },
         {
           title: "操作",
           dataIndex: "control",
-          scopedSlots: { customRender: "control" },
+          scopedSlots: { customRender: "control" }, visible: true,
         },],
 
 
@@ -256,6 +251,34 @@ export default {
     },
   },
   methods: {
+    ToSearch(e) {
+      e.preventDefault();
+      this.$nextTick(() => {
+        this.searchform.validateFields((err, values) => {
+          if (!err) {
+            //unidentified的内容直接替换为了''
+            for (let k in values) {
+              console.log(values[k]);
+              if (values[k]) {
+                values[k] = values[k];
+              } else {
+                values[k] = "";
+              }
+            }
+            console.log("搜索", values);
+            this.getwjglListData(values);
+          }
+        });
+      });
+    },
+    viewHandle(record) {
+      if (record.pdf_url != "") {
+        window.open(record.pdf_url, '_blank');
+
+      }
+      // 处理查看操作，例如打开一个对话框或者导航到一个详细页面
+      console.log('查看详情:', record);
+    },
     editHandle(e) {
       console.log(e, 'test')
       this.editvisible = true; //展示编辑弹窗

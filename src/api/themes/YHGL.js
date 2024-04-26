@@ -25,8 +25,7 @@ export default class YHGL {
   // change_user_pws
 
   // Account/set_money_pwd?userId=1&password=2
-  static async change_user_pwd(userId,user_pwd)
-  {
+  static async change_user_pwd(userId, user_pwd) {
     if (window.globalConfig.isLocalData) { //是否使用本地数据
       let res = await axios.get(`/data/ywyy/yhgl/玩家管理.json`);
       return res.data.data;
@@ -35,10 +34,29 @@ export default class YHGL {
       return res.data;
     }
   }
+
+  static async update_bank(params) {
+    if (window.globalConfig.isLocalData) { //是否使用本地数据
+      let res = await axios.get(`/data/ywyy/yhgl/玩家管理.json`);
+      return res.data.data;
+    } else { //使用接口数据
+      let res = await axios.post(`/apiUrl/api/Account/Edit_bank`, params);
+      return res.data.data;
+    }
+  }
+
+  static async pwdEdit(userId, user_pwd) {
+    if (window.globalConfig.isLocalData) { //是否使用本地数据
+      let res = await axios.get(`/data/ywyy/yhgl/玩家管理.json`);
+      return res.data.data;
+    } else { //使用接口数据
+      let res = await axios.get(`/apiUrl/api/Account/update_pwd?userId=${userId}&pwd=${user_pwd}`);
+      return res.data;
+    }
+  }
   // change_user_money
 
-  static async change_user_money(userId,user_money)
-  {
+  static async change_user_money(userId, user_money) {
     if (window.globalConfig.isLocalData) { //是否使用本地数据
       let res = await axios.get(`/data/ywyy/yhgl/玩家管理.json`);
       return res.data.data;
@@ -48,8 +66,7 @@ export default class YHGL {
     }
   }
 
-  static async qu_xian_shen_he(quxianId,userId,order_status)
-  {
+  static async qu_xian_shen_he(quxianId, userId, order_status) {
     if (window.globalConfig.isLocalData) { //是否使用本地数据
       let res = await axios.get(`/data/ywyy/yhgl/玩家管理.json`);
       return res.data.data;

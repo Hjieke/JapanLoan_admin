@@ -1,28 +1,28 @@
 <template>
   <div>
+    <a-form class="ant-advanced-search-form" :form="searchform">
+      <a-row :gutter="24">
+
+        <a-col :span="6">
+          <a-form-item label="用户名">
+            <a-input placeholder="登录账号" v-decorator="[
+              'account',
+              {
+                rules: [{ required: false, message: '用户名' }],
+              },
+            ]" />
+          </a-form-item>
+        </a-col>
+
+      </a-row>
+    </a-form>
+    <div class="table-operator">
+      <a-button type="primary" @click="ToSearch">查询</a-button>
+      &nbsp;&nbsp; &nbsp;&nbsp;
+      <a-button @click="reset">重置</a-button>
+    </div>
     <a-table class="iphmdTable" :row-selection="rowSelection" :columns="columnsData.filter(column => column.visible)"
-      :data-source="tableData" @change="tableChange" :pagination="pagination">
-      <template slot="avatar" slot-scope="text, record">
-        <img height="30px" :src="record.avatar" alt="" />
-      </template>
-      <template slot="status" slot-scope="text, record">
-        {{ record.status == 1 ? "启用" : "禁用" }}
-      </template>
-
-      <template slot="ti_xian_status" slot-scope="text, record">
-        {{ record.ti_xian_status == 1 ? "启用" : "禁用" }}
-      </template>
-
-      <template slot="tou_zhu_status" slot-scope="text, record">
-        {{ record.tou_zhu_status == 1 ? "启用" : "禁用" }}
-      </template>
-      <template slot="lotteryType" slot-scope="text, record">
-        {{ getType(record) || "-" }}
-      </template>
-      <template slot="lotteryStatus" slot-scope="text, record">
-        {{ text == 1 ? "已开奖" : "未开奖" }}
-      </template>
-
+      :data-source="tableData" @change="tableChange" :pagination="pagination" :scroll="{ x: 'max-content' }">
       <template slot="number" slot-scope="text, record">
         <div class="number bg-border-style" :class="'bg-border-' + getBgColor(text, record)"
           style="width: 50px; height: 50px">
@@ -32,9 +32,16 @@
       </template>
 
       <template slot="control" slot-scope="text, record">
+
+
         <a @click="editHandle(record)">修改账户余额</a>
         <a-divider type="vertical" />
         <a @click="delHandle(record)">修改取现密码</a>
+        <a-divider type="vertical" />
+        <a @click="update_account_pwd(record)">修改账户密码</a>
+        <a-divider type="vertical" />
+        <a @click="editHandle_bank(record)">修改银行卡信息</a>
+
       </template>
     </a-table>
 
@@ -88,86 +95,135 @@
       </a-form>
     </a-modal>
 
+    <a-modal title="修改账户密码" :visible="editvisible3" :confirm-loading="editconfirmLoading" @ok="editHandleSubmit3"
+      @cancel="edithandleCancel3" okText="ok" width="900px" cancelText="cancel">
+      <a-form :form="editform3" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+
+
+        <a-form-item label="id" hidden>
+          <a-input placeholder="id" v-decorator="[
+            'id',
+            {
+              rules: [{ required: false, message: 'id' }],
+            },
+          ]" />
+        </a-form-item>
+
+        <a-form-item label="账户密码">
+          <a-input placeholder="账户密码" v-decorator="[
+            'account_pwd',
+            {
+              rules: [{ required: false, message: '账户密码' }],
+            },
+          ]" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <a-modal title="修改银行卡信息" :visible="editvisible4" :confirm-loading="editconfirmLoading" @ok="editHandleSubmit4"
+      @cancel="edithandleCancel4" okText="ok" width="900px" cancelText="cancel">
+      <a-form :form="editform4" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+
+
+        <a-form-item label="id" hidden>
+          <a-input placeholder="id" v-decorator="[
+            'id',
+            {
+              rules: [{ required: false, message: 'id' }],
+            },
+          ]" />
+        </a-form-item>
+
+        <a-form-item label="银行名称">
+          <a-input placeholder="银行名称" v-decorator="[
+            'bank_name',
+            {
+              rules: [{ required: false, message: '银行名称' }],
+            },
+          ]" />
+        </a-form-item>
+
+        <a-form-item label="金融机构代码">
+          <a-input placeholder="金融机构代码" v-decorator="[
+            'bank_code',
+            {
+              rules: [{ required: false, message: '金融机构代码' }],
+            },
+          ]" />
+        </a-form-item>
+
+        <a-form-item label="支行名称">
+          <a-input placeholder="支行名称" v-decorator="[
+            'bank_Branch_name',
+            {
+              rules: [{ required: false, message: '支行名称' }],
+            },
+          ]" />
+        </a-form-item>
+
+        <a-form-item label="交易类型">
+          <a-input placeholder="交易类型" v-decorator="[
+            'trade_type',
+            {
+              rules: [{ required: false, message: '交易类型' }],
+            },
+          ]" />
+        </a-form-item>
+
+        <a-form-item label="银行卡号">
+          <a-input placeholder="银行卡号" v-decorator="[
+            'bank_card_number',
+            {
+              rules: [{ required: false, message: '银行卡号' }],
+            },
+          ]" />
+        </a-form-item>
+
+        <a-form-item label="账户持有人">
+          <a-input placeholder="账户持有人" v-decorator="[
+            'account_name',
+            {
+              rules: [{ required: false, message: '账户持有人' }],
+            },
+          ]" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
 
   </div>
 </template>
 
 <script>
+import { el, tr } from 'date-fns/locale';
 import { mapState } from "vuex";
-import Utils from "@/utils/common.js";
 import xjlsmodalVue from "./xjlsmodal.vue";
-import moment from "moment";
-import { tr } from 'date-fns/locale';
+
 
 export default {
   name: "iphmd",
   data() {
     return {
-
+      editvisible3: false,
       editvisible2: false,
-
       xjlsLoginName: "", //资金流水唯一标识
       //会员详情信息
-      vipinfo: {
-        account: "", //会员账号
-        agentName: "", //代理账号
-        realName: "", //会员姓名
-        type: "", //会员类型
-        balance: "", //余额
-        status: "", //状态
-        nick_name: "", //会员昵称
-        phone: "", //手机号
-        email: "", //邮箱
-        remark: "", //备注
-        rechCount: "", //充值次数
-        uwCount: "", //提现次数
-        rechMoney: "", //充值金额
-        uwMoney: "", //提现金额
-        rechTime: "", //最新充值时间
-        uwTime: "", //最近提现时间
-        regTime: "", //注册时间
-        regIp: "", //注册IP
-        lastLoginTime: "", //最近登录时间
-        lastLoginIp: "", //最近登录IP
-      },
 
-      addform: this.$form.createForm(this, {
-        account: "登录账号",
-        nick_name: "昵称",
-        sex: 1,
-        email: "邮箱",
-        password: "登录密码",
-        status: 1,
-      }), //新增表单
+      editvisible4: false,
+
+
+      editform4: this.$form.createForm(this, {}),
+
       //上下分表单信息
-      sxfvisible: false, //是否展示上下分弹窗
-      sxfconfirmLoading: false, //是否展示上下分加载
-      sxfform: this.$form.createForm(this, {
-        // account: "登录账号",
-        // nick_name: "昵称",
-        // sex: 1,
-        // email: "邮箱",
-        // password: "登录密码",
-        // status: 1,
-      }),
-      pwdform: this.$form.createForm(this, {
-        // account: "登录账号",
-        // nick_name: "昵称",
-        // sex: 1,
-        // email: "邮箱",
-        // password: "登录密码",
-        // status: 1,
-      }),
       editvisible: false, //是否展示编辑弹窗
       editconfirmLoading: false, //是否展示编辑加载
       editform: this.$form.createForm(this, { nick_name: "昵称" }), //新增表单
-
-      editform2: this.$form.createForm(), //新增表单
+      editform3: this.$form.createForm(this, {}),
+      editform2: this.$form.createForm(this, {}), //新增表单
       searchform: this.$form.createForm(this, {}), //搜索表单
       tableData: [
 
       ],
-      addyear: "",
+
       columnsData: [
         {
           title: "ID",
@@ -177,7 +233,8 @@ export default {
         {
           title: "用户名",
           dataIndex: "account",
-          visible: true
+          visible: true,
+          fixed: 'left',
         },
         {
           title: "姓名",
@@ -187,22 +244,23 @@ export default {
         },
         {
           title: "年龄",
-          dataIndex: "age",
+
+          dataIndex: "age", visible: true
 
         },
         {
           title: "性别",
-          dataIndex: "sex",
+          dataIndex: "sex", visible: true
 
         },
         {
           title: "邮件地址",
-          dataIndex: "email",
+          dataIndex: "email", visible: true
 
         },
         {
           title: "居住地址",
-          dataIndex: "address",
+          dataIndex: "address", visible: true
 
         },
         {
@@ -237,23 +295,23 @@ export default {
         },
         {
           title: "金融机构代码",
-          dataIndex: "bank_code",
+          dataIndex: "bank_code", visible: true
         },
         {
           title: "支行名称",
-          dataIndex: "bank_Branch_name",
+          dataIndex: "bank_Branch_name", visible: true
         },
         {
           title: "交易类型",
-          dataIndex: "trade_type",
+          dataIndex: "trade_type", visible: true
         },
         {
           title: "银行卡号",
-          dataIndex: "bank_card_number",
+          dataIndex: "bank_card_number", visible: true
         },
         {
           title: "账户持有人",
-          dataIndex: "account_name",
+          dataIndex: "account_name", visible: true
         },
         {
           title: "账户余额",
@@ -264,17 +322,18 @@ export default {
           dataIndex: "quxian_code", visible: true
         },
         {
+          title: "注册时间",
+          dataIndex: "create_time", visible: true
+        },
+        {
           title: "操作",
           dataIndex: "control",
           scopedSlots: { customRender: "control" },
-          visible: true
+          visible: true,
+          fixed: 'right',
         },
       ],
-      //上传
-      loading: false,
-      imageUrl: "",
-      editimageUrl: "", //修改的默认图片
-      baseUrl: "http://180.76.248.111:10001/api/ZwtsV2Copy/zwts_fwxn_byfwzk", //图片上传地址
+
       pagination: {
         showTotal: (total, range) =>
           `rows:${range[0]}-${range[1]} total: ${total}`,
@@ -284,62 +343,7 @@ export default {
         total: 10,
         pageNo: 1,
       }, //分页器配置对象
-      //十二生肖
-      zodiacList: [
-        "鼠",
-        "牛",
-        "虎",
-        "兔",
-        "龙",
-        "蛇",
-        "马",
-        "羊",
-        "猴",
-        "鸡",
-        "狗",
-        "猪",
-      ],
-      wuxingList: ["金", "木", "水", "火", "土"],
-      //用于承载七个号码的编辑
-      numberList: [
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-      ],
-      //是否展示年选中
-      isOpen: false,
+
     };
   },
   components: {
@@ -366,6 +370,7 @@ export default {
     },
   },
   created() {
+
     this.getData();
   },
   watch: {
@@ -377,123 +382,113 @@ export default {
       }
     },
   },
+  mounted() {
+
+
+  },
   methods: {
-    //年份发生变化
-    yearpanelChange(e) {
-      console.log(e);
-      //设置表单值
+    editHandle_bank(e) {
+      // this.editvisible4 = true;
+      // this.editform4.resetFields();
+      this.editvisible4 = true;
       setTimeout(() => {
         this.$nextTick(() => {
-          this.addform.setFieldsValue({
-            year: e,
-          });
-          this.isOpen = false;
+          // 数据填入
+          this.editform4.setFieldsValue({
+            id: e.id,
+            bank_name: e.bank_name,
+            bank_code: e.bank_code,
+            bank_Branch_name: e.bank_Branch_name,
+            trade_type: e.trade_type,
+            bank_card_number: e.bank_card_number,
+            account_name: e.account_name
+          })
         });
       }, 500);
     },
+
+    editHandleSubmit4(e) {
+      e.preventDefault();
+      this.editform4.validateFields((err, values) => {
+        if (!err) {
+
+          this.edit_bank_post(values);
+        }
+      });
+
+    },
+
+    async edit_bank_post(pa) {
+
+      let res = await this.$api.YHGL.update_bank(pa);
+
+      this.$message.success("银行卡修改成功");
+      this.getwjglListData();
+      this.editvisible4 = false;
+
+
+    },
+
+    edithandleCancel4() {
+      this.editvisible4 = false;
+      // this.$nextTick(() => {
+      //   // 重置表单字段
+      //   this.editform4.resetFields();
+      // });
+
+    },
+    async pwdEdit(v1, v2) {
+      let res = await this.$api.YHGL.pwdEdit(v1, v2)
+      this.$message.success("玩家密码修改成功");
+      this.getwjglListData();
+      this.editvisible3 = false;
+    },
+    edithandleCancel3() {
+      this.editvisible3 = false
+    },
+    editHandleSubmit3(e) {
+      e.preventDefault();
+      this.editform3.validateFields((err, values) => {
+        if (!err) {
+          console.log(values);
+          this.pwdEdit(values.id, values.account_pwd);
+        }
+      })
+
+      this.$nextTick(() => {
+        // 数据填入
+        this.editform3.setFieldsValue({
+          id: e.id,
+          account_pwd: '',
+        })
+        // 给下拉菜单赋值
+      });;
+    },
+    update_account_pwd(e) {
+
+      this.editvisible3 = true;
+      // 设置反填逻辑
+      this.$nextTick(() => {
+        // 数据填入
+        this.editform3.setFieldsValue({
+          id: e.id,
+          account_pwd: '',
+        })
+        // 给下拉菜单赋值
+      });
+    },
+
+    edithandleCancel3() {
+
+      this.editvisible3 = false;
+
+    },
+
     onChangeTimer(e) {
       console.log(e);
     },
-    //获取球色
-    getBgColor(text, record) {
-      let color = "";
-      let colorList = [
-        {
-          name: "red",
-          numberList: [
-            "01",
-            "02",
-            "07",
-            "08",
-            "12",
-            "13",
-            "18",
-            "19",
-            "23",
-            "24",
-            "29",
-            "30",
-            "34",
-            "35",
-            "40",
-            "45",
-            "46",
-          ],
-        },
-        {
-          name: "blue",
-          numberList: [
-            "03",
-            "04",
-            "09",
-            "10",
-            "14",
-            "15",
-            "20",
-            "25",
-            "26",
-            "31",
-            "36",
-            "37",
-            "41",
-            "42",
-            "47",
-            "48",
-          ],
-        },
-        {
-          name: "green",
-          numberList: [
-            "05",
-            "06",
-            "11",
-            "16",
-            "17",
-            "21",
-            "22",
-            "27",
-            "28",
-            "32",
-            "33",
-            "38",
-            "39",
-            "43",
-            "44",
-            "49",
-          ],
-        },
-      ];
-      //判断包含该数字的返回对应颜色
-      colorList.forEach((e) => {
-        try {
-          if (e.numberList.includes(text.number)) {
-            color = e.name;
-          }
-        } catch (error) {
-          console.log(error);
-          color = "white";
-        }
-      });
-      return color;
-    },
-    //获取类型
-    getType(record) {
-      let type = "";
-      switch (Number(record.lotteryType)) {
-        case 1:
-          type = "香港";
-          break;
-        case 2:
-          type = "澳门";
-          break;
-        case 3:
-          type = "六合彩";
-          break;
-        default:
-          break;
-      }
-      return type;
-    },
+
+
     //初始化
     init() {
       this.getData();
@@ -540,10 +535,7 @@ export default {
       let res = await this.$api.YHGL.getwjglListData({
         pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize,
-        lotteryType: 3,
-        lotteryStatus: 3,
-        // year: 2024,
-        // sort: 1,
+
         ...param,
       });
       console.log(res);
@@ -561,46 +553,7 @@ export default {
       });
       this.pagination.total = res.totalRows || 10;
     },
-    showAddModal() {
-      this.addvisible = true;
-      this.numberList = [
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-        {
-          number: "01",
-          shengXiao: "",
-          wuXing: "",
-        },
-      ];
-    },
+
     handleOk(e) {
       this.confirmLoading = true;
       setTimeout(() => {
@@ -628,11 +581,7 @@ export default {
       console.log("Clicked cancel button");
       this.vipvisible = false;
     },
-    //上下分取消
-    sxfhandleCancel(e) {
-      console.log("Clicked cancel button");
-      this.sxfvisible = false;
-    },
+
     //编辑取消
     edithandleCancel(e) {
       console.log("Clicked cancel button");
@@ -655,16 +604,7 @@ export default {
       //重置数据
       this.getData();
     },
-    //登录密码设置确认
-    pwdHandleSubmit(e) {
-      e.preventDefault();
-      this.pwdform.validateFields((err, values) => {
-        if (!err) {
-          console.log("登录密码参数", values);
-          this.editwjglPasswordData(values);
-        }
-      });
-    },
+
     //修改玩家登录密码
     editwjglPasswordData(param) {
       this.$api.YHGL.editwjglPasswordData(param)
@@ -693,51 +633,7 @@ export default {
         }
       });
     },
-    //新增确认表单
-    addHandleSubmit(e) {
-      e.preventDefault();
-      this.addform.validateFields((err, values) => {
-        if (!err) {
-          console.log("新增参数", values);
-          console.log(moment(values.time).format("HH时mm分"));
-          console.log(
-            JSON.stringify({
-              ...values,
-              numberList: this.numberList,
-              lotteryTime:
-                moment(values.lotteryTime).format("YYYY年MM月DD日") +
-                moment(values.time).format("HH时mm分"),
-              lotteryStatus: values.lotteryStatus ? 1 : 0,
-            })
-          );
-          this.addwjglListData({
-            ...values,
-            numberList: this.numberList,
-            lotteryTime:
-              moment(values.lotteryTime).format("YYYY年MM月DD日") +
-              moment(values.time).format("HH时mm分"),
-            lotteryStatus: values.lotteryStatus ? 1 : 0,
-          });
-        }
-      });
-    },
-    //新增玩家
-    addwjglListData(param) {
-      this.$api.YHGL.addwjglListData(param)
-        .then((res) => {
-          if (res.success) {
-            this.$message.success("玩家添加成功");
-            this.getwjglListData();
-          } else {
-            this.$message.error("玩家添加失败");
-          }
-          this.addvisible = false;
-        })
-        .catch((err) => {
-          this.$message.error(err);
-          this.addvisible = false;
-        });
-    },
+
     //会员详情确认
     vipHandleSubmit(e) {
       e.preventDefault();
@@ -753,23 +649,7 @@ export default {
         }
       });
     },
-    //玩家上下分
-    wjsxfData(param) {
-      this.$api.YHGL.wjsxfData(param)
-        .then((res) => {
-          if (res.success) {
-            this.$message.success("保存成功");
-            this.getwjglListData();
-          } else {
-            this.$message.error("保存失败");
-          }
-          this.sxfvisible = false;
-        })
-        .catch((err) => {
-          this.$message.error(err);
-          this.sxfvisible = false;
-        });
-    },
+
     //编辑确认表单
     editHandleSubmit(e) {
       e.preventDefault();
@@ -810,7 +690,6 @@ export default {
     },
     async change_user_password(id, user_password) {
       let res = await this.$api.YHGL.change_user_pwd(id, user_password);
-
       this.editvisible2 = false;
       this.getwjglListData();
 
@@ -837,7 +716,6 @@ export default {
       });
     },
     edithandleCancel2() {
-
       this.editvisible2 = false
     },
 
@@ -850,22 +728,11 @@ export default {
           id: e.id,
           user_money: e.user_money,
         })
-        // 给下拉菜单赋值
       });
 
 
     },
-    //上下分操作
-    sxfHandle(e) {
-      this.sxfvisible = true; //展示编辑弹窗
-      setTimeout(() => {
-        //设置表单值
-        this.$nextTick(() => {
-          e.balance = 0;
-          this.sxfform.setFieldsValue(e);
-        });
-      }, 500);
-    },
+
   },
 };
 </script>
