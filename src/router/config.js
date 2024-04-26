@@ -69,6 +69,13 @@ const options = {
           name: '提现记录',
           component: () => import('@/pages/ywyy/zwgl/txjl.vue'),
         },
+
+        {
+          path: 'ipfw',
+          name: 'IP访问查看',
+          component: () => import('@/pages/ywyy/zwgl/ipfw.vue'),
+        },
+        
           // {
           //   path: 'htgl',
           //   name: '合同管理',
