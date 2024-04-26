@@ -104,9 +104,14 @@ export default {
       addyear: "",
       columnsData: [
         {
+          title: "用户名",
+          dataIndex: "username", visible: true,
+        },
+        {
           title: "IP地址",
           dataIndex: "ipaddres", visible: true,
         },
+  
         {
           title: "访问域名",
           dataIndex: "htmllink", visible: true,
