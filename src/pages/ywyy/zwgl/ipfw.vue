@@ -352,7 +352,7 @@ export default {
         ...param,
       });
       console.log(res);
-
+      debugger;
       this.tableData = res.rows.map((e, index) => {
         try {
           e.key = e.id;

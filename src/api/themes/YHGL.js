@@ -28,7 +28,7 @@ export default class YHGL {
       let res = await axios.get(`/data/ywyy/yhgl/玩家管理.json`);
       return res.data.data;
     } else { //使用接口数据
-      let res = await axios.post(`/apiUrl/api/Announcement/IpSelect`,params);
+      let res = await axios.post(`/apiUrl/api/Announcement/IpSelect?pageNo=${params.pageNo}&pageSize=${params.pageSize}`);
       return res.data.data;
     }
   }
